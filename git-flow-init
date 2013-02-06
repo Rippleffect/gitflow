@@ -90,7 +90,7 @@ cmd_default() {
 		if [ "$branch_count" -eq 0 ]; then
 			echo "No branches exist yet. Base branches must be created now."
 			should_check_existence=NO
-			default_suggestion=$(git config --get gitflow.branch.master || echo master)
+			default_suggestion=$(git config --get gitflow.branch.master || echo production)
 		else
 			echo
 			echo "Which branch should be used for bringing forth production releases?"
@@ -143,7 +143,7 @@ cmd_default() {
 		branch_count=$(git_local_branches | grep -v "^${master_branch}\$" | wc -l)
 		if [ "$branch_count" -eq 0 ]; then
 			should_check_existence=NO
-			default_suggestion=$(git config --get gitflow.branch.develop || echo develop)
+			default_suggestion=$(git config --get gitflow.branch.develop || echo development)
 		else
 			echo
 			echo "Which branch should be used for integration of the \"next release\"?"
@@ -161,7 +161,7 @@ cmd_default() {
 			
 			if [ -z $default_suggestion ]; then
 				should_check_existence=NO
-				default_suggestion=$(git config --get gitflow.branch.develop || echo develop)
+				default_suggestion=$(git config --get gitflow.branch.develop || echo development)
 			fi
 			
 		fi
@@ -298,7 +298,7 @@ cmd_default() {
 
 	# Version tag prefix
 	if ! git config --get gitflow.prefix.versiontag >/dev/null 2>&1 || flag force; then
-		default_suggestion=$(git config --get gitflow.prefix.versiontag || echo "")
+		default_suggestion=$(git config --get gitflow.prefix.versiontag || echo "release-")
 		printf "Version tag prefix? [$default_suggestion] "
 		if noflag defaults; then
 			read answer
